@@ -8,7 +8,7 @@
 
 **4.** creación de funciones *muestroHistorial* y *actualizoSeleccionPrevia*, cambiando el estado.
 
-**5.** creación de componentes Opciones y Recordatorio. Contenedores de los <div> correspondientes.
+**5.** creación de componentes Opciones y Recordatorio. Contenedores de los div correspondientes.
 
 **6.** creación de *handleClick* para avanzar en la historia.
 
