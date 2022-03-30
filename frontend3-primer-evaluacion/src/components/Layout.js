@@ -12,36 +12,60 @@ export default class Layout extends Component {
             historial: [],
             seleccionPrevia: "",
         };
-
-        this.handleClick = this.handleClick.bind(this);
     }
     
-    // calcularOpciones = () => {
-    //     return 1 + (etpa.length - 1) / 2;
-    // }
+    componentDidUpdate(prevProps) {
+        if (prevProps !== this.state.contador) console.log("El contador del estado cambió.");
+    }
+
+    estadoEsUno () {
+        this.setState({
+            contador: 1,
+        });
+    }
 
     handleClick = (e) => {
-        const letra = e.toLowerCase();
-        const cont = this.state.historial.length;
+        //const letra = e.toLowerCase();
+        //const cont = this.state.historial.length;
         
         const llegoAlFinal = this.state.historial.length === 4;
         if (llegoAlFinal) this.reiniciar();
         else {
-            this.setState({
-                contador: 1,
-            });
+            this.estadoEsUno();
 
-            if (this.state.contador > 1 && e === "A"){
-                const idx = etpa.map(el => el.id).indexOf(cont + 1 + letra);
+            if (e === 'A' && this.state.seleccionPrevia !== 'A') {
                 this.setState({
-                    contador: idx,
+                  contador: this.state.contador + 1,
+                  seleccionPrevia: 'A',
                 });
-            } else if (this.state.contador === 1 || e === "B") {
-                const id = etpa.map(el => el.id).indexOf(cont + 2 + letra);
+              } else if (e === 'A' && this.state.seleccionPrevia === 'A') {
                 this.setState({
-                    contador: id,
+                  contador: this.state.contador + 2,
                 });
-            }
+              } else if (e === 'B' && this.state.seleccionPrevia === 'A') {
+                this.setState({
+                  contador: this.state.contador + 3,
+                  seleccionPrevia: 'B',
+                });
+              } else if (e === 'B') {
+                this.setState({
+                  contador: this.state.contador + 2,
+                  seleccionPrevia: 'B',
+                });
+              }
+            // if (this.state.contador > 1 && e === "A"){
+            //     const idx = etpa.map(el => el.id).indexOf(cont + 1 + letra);
+            //     this.setState({
+            //         contador: idx,
+            //     });
+            //     console.log(this.state.contador)
+            //     console.log(idx)
+            // } else if (this.state.contador === 1 || e === "B") {
+            //     const id = etpa.map(el => el.id).indexOf(cont + 2 + letra);
+            //     this.setState({
+            //         contador: id,
+            //     });
+            // }
 
             this.actualizoSeleccionPrevia(e);
             this.muestroHistorial(e);
