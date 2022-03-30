@@ -12,40 +12,50 @@ export default class Layout extends Component {
             historial: [],
             seleccionPrevia: "",
         };
+
+        this.handleClick = this.handleClick.bind(this);
     }
     
-    handleClick = (e) => {
-        if (e === "A"){
-            if (this.state.contador % 2 === 0){
-                this.setState({
-                    contador: this.state.contador + 1,
-                })
-            } else {
-                this.setState({
-                    contador: this.state.contador + 2,
-                })
-            }
+    calcularOpciones = () => {
+        return 1 + (etpa.length - 1) / 2;
+    }
 
-        } else if (e === "B"){
-            if (this.state.contador % 2 === 0){
-                this.setState({
-                    contador: this.state.contador + 2,
-                })
-            } else {
-                this.setState({
-                    contador: this.state.contador + 1,
-                })
-            }
+    handleClick = (e) => {
+        this.setState({
+            contador: 1,
+        })
+
+        //const llegoAlFinal = this.state.historial.length === (4);
+        //if (llegoAlFinal)  this.reiniciar();
+
+        const letra = e.toLowerCase();
+        const cont = this.state.contador + 1 + letra;
+        const idx = etpa.map(el => el.id).indexOf(cont);
+        
+        if (e === "A" || e === "B") {
+            this.setState({
+                contador: idx,
+            })
+            
+            console.log(idx);
         }
+
         this.actualizoSeleccionPrevia(e);
         this.muestroHistorial(e);
-        console.log(this.state.contador);
+    }
+
+    reiniciar = () => {
+        this.setState({ 
+            contador: 0,
+            historial: [],
+            seleccionPrevia: "",
+        });
     }
 
     actualizoSeleccionPrevia = (a) => {
         this.setState({
             seleccionPrevia: a,
-        })
+        });
     }
     
     muestroHistorial = (e) => {
@@ -57,8 +67,8 @@ export default class Layout extends Component {
     render() {
         return(
             <div className="layout">
-                <h1 className="historia">{etpa[this.state.contador].historia}</h1>
-                <Opciones handleClick={this.handleClick} opcionA={etpa[this.state.contador].opciones.a} opcionB={etpa[this.state.contador].opciones.b}/>
+                <h1 className="historia">{etpa[0].historia}</h1>
+                <Opciones handleClick={this.handleClick} opcionA={etpa[0].opciones.a} opcionB={etpa[0].opciones.b}/>
                 <Recordatorio seleccionPrevia={this.state.seleccionPrevia} historial={this.state.historial}/>
             </div>
         )
