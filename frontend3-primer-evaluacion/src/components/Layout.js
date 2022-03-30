@@ -16,32 +16,36 @@ export default class Layout extends Component {
         this.handleClick = this.handleClick.bind(this);
     }
     
-    calcularOpciones = () => {
-        return 1 + (etpa.length - 1) / 2;
-    }
+    // calcularOpciones = () => {
+    //     return 1 + (etpa.length - 1) / 2;
+    // }
 
     handleClick = (e) => {
-        this.setState({
-            contador: 1,
-        })
-
-        //const llegoAlFinal = this.state.historial.length === (4);
-        //if (llegoAlFinal)  this.reiniciar();
-
         const letra = e.toLowerCase();
-        const cont = this.state.contador + 1 + letra;
-        const idx = etpa.map(el => el.id).indexOf(cont);
+        const cont = this.state.historial.length;
         
-        if (e === "A" || e === "B") {
+        const llegoAlFinal = this.state.historial.length === 4;
+        if (llegoAlFinal) this.reiniciar();
+        else {
             this.setState({
-                contador: idx,
-            })
-            
-            console.log(idx);
-        }
+                contador: 1,
+            });
 
-        this.actualizoSeleccionPrevia(e);
-        this.muestroHistorial(e);
+            if (this.state.contador > 1 && e === "A"){
+                const idx = etpa.map(el => el.id).indexOf(cont + 1 + letra);
+                this.setState({
+                    contador: idx,
+                });
+            } else if (this.state.contador === 1 || e === "B") {
+                const id = etpa.map(el => el.id).indexOf(cont + 2 + letra);
+                this.setState({
+                    contador: id,
+                });
+            }
+
+            this.actualizoSeleccionPrevia(e);
+            this.muestroHistorial(e);
+        }
     }
 
     reiniciar = () => {
@@ -50,6 +54,8 @@ export default class Layout extends Component {
             historial: [],
             seleccionPrevia: "",
         });
+
+        alert("Fin");
     }
 
     actualizoSeleccionPrevia = (a) => {
@@ -67,8 +73,8 @@ export default class Layout extends Component {
     render() {
         return(
             <div className="layout">
-                <h1 className="historia">{etpa[0].historia}</h1>
-                <Opciones handleClick={this.handleClick} opcionA={etpa[0].opciones.a} opcionB={etpa[0].opciones.b}/>
+                <h1 className="historia">{etpa[this.state.contador].historia}</h1>
+                <Opciones handleClick={this.handleClick} opcionA={etpa[this.state.contador].opciones.a} opcionB={etpa[this.state.contador].opciones.b}/>
                 <Recordatorio seleccionPrevia={this.state.seleccionPrevia} historial={this.state.historial}/>
             </div>
         )
