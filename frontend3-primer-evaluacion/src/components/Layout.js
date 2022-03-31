@@ -15,7 +15,7 @@ export default class Layout extends Component {
     }
     
     componentDidUpdate(prevProps) {
-        if (prevProps !== this.state.contador) console.log("El contador del estado cambió.");
+        if (prevProps !== this.state.contador) console.log("El contador cambió.");
     }
 
     estadoEsUno () {
@@ -25,9 +25,6 @@ export default class Layout extends Component {
     }
 
     handleClick = (e) => {
-        //const letra = e.toLowerCase();
-        //const cont = this.state.historial.length;
-        
         const llegoAlFinal = this.state.historial.length === 4;
         if (llegoAlFinal) this.reiniciar();
         else {
@@ -53,19 +50,6 @@ export default class Layout extends Component {
                   seleccionPrevia: 'B',
                 });
               }
-            // if (this.state.contador > 1 && e === "A"){
-            //     const idx = etpa.map(el => el.id).indexOf(cont + 1 + letra);
-            //     this.setState({
-            //         contador: idx,
-            //     });
-            //     console.log(this.state.contador)
-            //     console.log(idx)
-            // } else if (this.state.contador === 1 || e === "B") {
-            //     const id = etpa.map(el => el.id).indexOf(cont + 2 + letra);
-            //     this.setState({
-            //         contador: id,
-            //     });
-            // }
 
             this.actualizoSeleccionPrevia(e);
             this.muestroHistorial(e);
